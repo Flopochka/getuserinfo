@@ -1,0 +1,428 @@
+<!DOCTYPE html>
+<html lang="ru">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Отладочная инфа</title>
+  </head>
+  <body>
+    <!--HARDDATA-->
+    <div class="main">
+      <div class="main-head">
+        <div class="main-head-part">
+          Отладочная информация, сообщить администрвтору
+        </div>
+        <div class="main-head-part">
+          <img
+            src="data:image/webp;base64,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"
+            alt=""
+            class="logo"
+          />
+        </div>
+      </div>
+      <table id="info-table">
+        <thead>
+          <tr>
+          <td>Свойство</td>
+          <td>Состояние</td>
+          </tr>
+        </thead>
+        <tbody id="info-tbody"></tbody>
+      </table>
+      <div class="send">
+        <div class="send-1">
+          <div class="p1">Телефон поддержки: 8 (800) 000 00 00 <br> Почта: yourmail@example.com</div>
+          <button class="p2" id="download-btn">Скачать файл для письма</button>
+          <a class="p2" id="mailto-link" style="margin-left:20px;" href="#">Открыть почту</a>
+        </div>
+        <div style="font-size:12px;color:#888;margin-top:8px;">
+          Скачайте файл или воспользуйтесь быстрым открытием почты с таблицей в теле письма.
+        </div>
+      </div>
+      <div id="send-status" style="text-align:center;font-size:14px;color:#6c6;display:none;margin-top:10px;"></div>
+      <script>
+        let savedIP = "Загрузка...";
+        let savedGeo = {
+          Широта: "Загрузка...",
+          Долгота: "Загрузка...",
+          "Точность (м)": "Загрузка...",
+          Высота: "Загрузка...",
+          "Точность высоты": "Загрузка...",
+          Направление: "Загрузка...",
+          Скорость: "Загрузка...",
+          "Время геоданных": "Загрузка...",
+        };
+        let ipRequested = false;
+        let geoRequested = false;
+        let hardData = window.hardData || {};
+
+        async function getIP() {
+          if (ipRequested) return;
+          ipRequested = true;
+          try {
+            const res = await fetch("https://api.ipify.org?format=json");
+            const data = await res.json();
+            savedIP = data.ip;
+          } catch {
+            savedIP = "Нет данных";
+          }
+        }
+
+        function requestGeo() {
+          if (geoRequested) return;
+          geoRequested = true;
+          if (!navigator.geolocation) {
+            for (const key in savedGeo) savedGeo[key] = "Не поддерживается";
+            return;
+          }
+          navigator.geolocation.getCurrentPosition(
+            (pos) => {
+              const coords = pos.coords;
+              savedGeo["Широта"] = coords.latitude ?? "Нет данных";
+              savedGeo["Долгота"] = coords.longitude ?? "Нет данных";
+              savedGeo["Точность (м)"] = coords.accuracy ?? "Нет данных";
+              savedGeo["Высота"] = coords.altitude ?? "Нет данных";
+              savedGeo["Точность высоты"] =
+                coords.altitudeAccuracy ?? "Нет данных";
+              savedGeo["Направление"] = coords.heading ?? "Нет данных";
+              savedGeo["Скорость"] = coords.speed ?? "Нет данных";
+              savedGeo["Время геоданных"] = pos.timestamp
+                ? new Date(pos.timestamp).toLocaleString()
+                : "Нет данных";
+            },
+            () => {
+              for (const key in savedGeo) savedGeo[key] = "Нет доступа";
+            }
+          );
+        }
+
+        function getLocalStorage() {
+          try {
+            if (!window.localStorage) return "Нет доступа";
+            if (localStorage.length === 0) return "Пусто";
+            let out = [];
+            for (let i = 0; i < localStorage.length; i++) {
+              let k = localStorage.key(i);
+              out.push(`${k}: ${localStorage.getItem(k)}`);
+            }
+            return out.join("; ");
+          } catch {
+            return "Нет доступа";
+          }
+        }
+
+        function getCookies() {
+          try {
+            return document.cookie || "Пусто";
+          } catch {
+            return "Нет доступа";
+          }
+        }
+
+        function getDecodedCookies() {
+          try {
+            return decodeURIComponent(document.cookie || "") || "Пусто";
+          } catch {
+            return "Нет доступа";
+          }
+        }
+
+        function fillTable(info) {
+          const tbody = document.getElementById("info-tbody");
+          tbody.innerHTML = "";
+          // Сначала info
+          for (const [key, value] of Object.entries(info)) {
+            const tr = document.createElement("tr");
+            const td1 = document.createElement("td");
+            td1.textContent = key;
+            const td2 = document.createElement("td");
+            td2.appendChild(renderValue(value));
+            tr.appendChild(td1);
+            tr.appendChild(td2);
+            tbody.appendChild(tr);
+          }
+          // Затем hardData
+          for (const [key, value] of Object.entries(hardData)) {
+            const tr = document.createElement("tr");
+            const td1 = document.createElement("td");
+            td1.textContent = key;
+            const td2 = document.createElement("td");
+            td2.appendChild(renderValue(value));
+            tr.appendChild(td1);
+            tr.appendChild(td2);
+            tbody.appendChild(tr);
+          }
+          // Сортировка строк: приоритетные в начале
+          const priority = ["Онлайн", "hostname", "username", "network"];
+          const rows = Array.from(tbody.children); // только прямые дети tbody
+          rows.sort((a, b) => {
+            const ka = a.firstChild.textContent;
+            const kb = b.firstChild.textContent;
+            const ia = priority.indexOf(ka);
+            const ib = priority.indexOf(kb);
+            if (ia === -1 && ib === -1) return 0;
+            if (ia === -1) return 1;
+            if (ib === -1) return -1;
+            return ia - ib;
+          });
+          rows.forEach(tr => tbody.appendChild(tr));
+        }
+
+        function renderValue(value) {
+          if (value === null || value === undefined) {
+            return document.createTextNode('');
+          }
+          if (typeof value === 'object') {
+            if (Array.isArray(value)) {
+              // Массив — таблица с одной колонкой
+              const table = document.createElement('table');
+              table.style.borderCollapse = 'collapse';
+              table.style.width = '100%';
+              value.forEach(item => {
+                const tr = document.createElement('tr');
+                const td = document.createElement('td');
+                const child = renderValue(item);
+                td.appendChild(child);
+                td.style.border = '1px solid #888';
+                // Только если не вложенная таблица
+                if (!(child instanceof HTMLTableElement)) {
+                  td.style.padding = '2px 6px';
+                }
+                tr.appendChild(td);
+                table.appendChild(tr);
+              });
+              return table;
+            } else {
+              // Объект — таблица имя/значение
+              const table = document.createElement('table');
+              table.style.borderCollapse = 'collapse';
+              table.style.width = '100%';
+              for (const [k, v] of Object.entries(value)) {
+                const tr = document.createElement('tr');
+                const tdKey = document.createElement('td');
+                tdKey.textContent = k;
+                tdKey.style.border = '1px solid #888';
+                tdKey.style.padding = '2px 6px';
+                const tdVal = document.createElement('td');
+                const child = renderValue(v);
+                tdVal.appendChild(child);
+                tdVal.style.border = '1px solid #888';
+                if (!(child instanceof HTMLTableElement)) {
+                  tdVal.style.padding = '2px 6px';
+                }
+                tr.appendChild(tdKey);
+                tr.appendChild(tdVal);
+                table.appendChild(tr);
+              }
+              return table;
+            }
+          } else {
+            return document.createTextNode(String(value));
+          }
+        }
+
+        function getBaseInfo() {
+          return {
+            "Время открытия страницы": new Date().toLocaleString(),
+            "Часовой пояс (UTC offset, часы)":
+              new Date().getTimezoneOffset() / 60,
+            "Путь страницы": window.location.pathname,
+            Реферер: document.referrer || "Нет",
+            "Количество посещённых сайтов (history.length)": history.length,
+            "Название браузера": navigator.appName,
+            "Движок браузера": navigator.product,
+            "Версия браузера (appVersion)": navigator.appVersion,
+            "User Agent": navigator.userAgent,
+            "Язык браузера": navigator.language,
+            Онлайн: navigator.onLine ? "Да" : "Нет",
+            Платформа: navigator.platform,
+            "Java включена": navigator.javaEnabled
+              ? navigator.javaEnabled()
+                ? "Да"
+                : "Нет"
+              : "Нет данных",
+            "Cookies включены": navigator.cookieEnabled ? "Да" : "Нет",
+            "Cookies (строка)": getCookies(),
+            "Cookies (декодированные)": getDecodedCookies(),
+            localStorage: getLocalStorage(),
+            "Ширина экрана": screen.width,
+            "Высота экрана": screen.height,
+            "Доступная ширина экрана": screen.availWidth,
+            "Доступная высота экрана": screen.availHeight,
+            "Глубина цвета": screen.colorDepth,
+            "Глубина пикселя": screen.pixelDepth,
+            "Внутренняя ширина окна": window.innerWidth,
+            "Внутренняя высота окна": window.innerHeight,
+            "Цветовая схема":
+              window.matchMedia &&
+              window.matchMedia("(prefers-color-scheme: dark)").matches
+                ? "Тёмная"
+                : "Светлая",
+          };
+        }
+
+        function updateDynamicInfo(info) {
+          info["Внутренняя ширина окна"] = window.innerWidth;
+          info["Внутренняя высота окна"] = window.innerHeight;
+          info["Время на устройстве"] = new Date().toLocaleTimeString();
+        }
+
+        function addGeoInfo(info) {
+          for (const key in savedGeo) {
+            info[key] = savedGeo[key];
+          }
+        }
+
+        function addIPInfo(info) {
+          info["IP-адрес"] = savedIP;
+        }
+
+        function updateMailtoLink() {
+          const email = "support@yourmail.com";
+          const subject = encodeURIComponent("Данные пользователя с сайта");
+          const body = encodeURIComponent(getTableText());
+          const href = `mailto:${email}?subject=${subject}&body=${body}`;
+          document.getElementById("mailto-link").setAttribute("href", href);
+        }
+
+        function updateAndShow() {
+          let info = getBaseInfo();
+          updateDynamicInfo(info);
+          addIPInfo(info);
+          addGeoInfo(info);
+          fillTable(info);
+          updateMailtoLink();
+        }
+
+        // Первый запуск: получить IP и гео только один раз
+        (async () => {
+          getIP();
+          requestGeo();
+          setInterval(updateAndShow, 1000);
+          updateAndShow();
+        })();
+
+        // --- Mailto с таблицей ---
+        function getTableText() {
+          let info = getBaseInfo();
+          updateDynamicInfo(info);
+          addIPInfo(info);
+          addGeoInfo(info);
+          let lines = [];
+          for (const [key, value] of Object.entries(info)) {
+            if (typeof value === 'object' && value !== null) {
+              lines.push(`${key}: ${JSON.stringify(value)}`);
+            } else {
+              lines.push(`${key}: ${value}`);
+            }
+          }
+          for (const [key, value] of Object.entries(hardData)) {
+            if (typeof value === 'object' && value !== null) {
+              lines.push(`${key}: ${JSON.stringify(value)}`);
+            } else {
+              lines.push(`${key}: ${value}`);
+            }
+          }
+          return lines.join("\n");
+        }
+
+        document.getElementById("download-btn").addEventListener("click", function () {
+          const text = getTableText();
+          const blob = new Blob([text], { type: "text/plain" });
+          const url = URL.createObjectURL(blob);
+          const a = document.createElement("a");
+          a.href = url;
+          a.download = "user_info.txt";
+          document.body.appendChild(a);
+          a.click();
+          setTimeout(() => {
+            document.body.removeChild(a);
+            URL.revokeObjectURL(url);
+          }, 0);
+        });
+
+      </script>
+    </div>
+    <style>
+      * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+        font-size: inherit;
+        color: inherit;
+        text-decoration: none;
+        font-family: Arial, Helvetica, sans-serif;
+        font-weight: 600;
+      }
+      .main {
+        min-height: 100vh;
+        padding: 20px;
+      }
+      .main-head {
+        display: flex;
+        gap: 15px;
+        width: 100%;
+        justify-content: space-between;
+      }
+      .main-head-part {
+        display: flex;
+        align-items: center;
+      }
+      .logo {
+        max-height: 100px;
+      }
+      table{
+        width: 100%;
+      }
+      td:has(table) {
+        padding: 0 !important;
+      }
+      #info-table {
+        border-collapse: collapse;
+        margin: 0 auto;
+      }
+      thead {
+        background-image: repeating-linear-gradient(
+          45deg,
+          #e0e0e0 0,
+          #e0e0e0 15px,
+          transparent 3px,
+          transparent 30px
+        );
+        background-color: #fff;
+      }
+      td {
+        padding: 8px;
+        border: 1px solid black;
+      }
+      .send {
+        padding-top: 20px;
+      }
+      .send-1 {
+        display: flex;
+        justify-content: space-between;
+      }
+      .p1 {
+      }
+      .p2, .mailto-link {
+        padding: 15px;
+        border: 1px solid black;
+        background-image: repeating-linear-gradient(
+          45deg,
+          #ffffff 0,
+          #ffffff 7px,
+          transparent 7px,
+          transparent 14px
+        );
+        background-color: #e0e0e0;
+        transition: background-color 1s;
+        background-position: 0;
+      }
+      .p2:hover, .mailto-link:hover{
+        background-position: 100000vw;
+        transition: background-position 10000s, background-color 1s;
+        background-color: #b8f5c0;
+      }
+    </style>
+  </body>
+</html> 
