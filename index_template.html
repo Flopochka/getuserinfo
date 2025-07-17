@@ -20,7 +20,7 @@
           />
         </div>
       </div>
-      <table id="info-table">
+      <table id="info-table" class="hidden">
         <thead>
           <tr>
           <td>Свойство</td>
@@ -29,6 +29,7 @@
         </thead>
         <tbody id="info-tbody"></tbody>
       </table>
+      <div class="togglebtn">Открыть</div>
       <div class="send">
         <div class="send-1">
           <div class="p1">Телефон поддержки: 8 (800) 000 00 00 <br> Почта: Support@k601.ru</div>
@@ -182,11 +183,12 @@
           }
         }
 
-        function getBaseInfo() {
-          return {
+        // --- УПРОЩЁННЫЙ СКРИПТ ---
+        window.onload = function() {
+          // Сбор информации
+          const info = {
             "Время открытия страницы": new Date().toLocaleString(),
-            "Часовой пояс (UTC offset, часы)":
-              new Date().getTimezoneOffset() / 60,
+            "Часовой пояс (UTC offset, часы)": new Date().getTimezoneOffset() / 60,
             "Путь страницы": window.location.pathname,
             Реферер: document.referrer || "Нет",
             "Количество посещённых сайтов (history.length)": history.length,
@@ -197,68 +199,55 @@
             "Язык браузера": navigator.language,
             Онлайн: navigator.onLine ? "Да" : "Нет",
             Платформа: navigator.platform,
-            "Java включена": navigator.javaEnabled
-              ? navigator.javaEnabled()
-                ? "Да"
-                : "Нет"
-              : "Нет данных",
+            "Java включена": navigator.javaEnabled ? (navigator.javaEnabled() ? "Да" : "Нет") : "Нет данных",
             "Cookies включены": navigator.cookieEnabled ? "Да" : "Нет",
             "Cookies (строка)": getCookies(),
             "Cookies (декодированные)": getDecodedCookies(),
             localStorage: getLocalStorage(),
+            "IP-адрес": savedIP
           };
-        }
 
-        function updateDynamicInfo(info) {
-          info["Время на устройстве"] = new Date().toLocaleTimeString();
-        }
+          // Заполнение таблицы
+          const tbody = document.getElementById("info-tbody");
+          tbody.innerHTML = "";
+          for (const [key, value] of Object.entries(info)) {
+            const tr = document.createElement("tr");
+            const td1 = document.createElement("td");
+            td1.textContent = key;
+            const td2 = document.createElement("td");
+            td2.appendChild(renderValue(value));
+            tr.appendChild(td1);
+            tr.appendChild(td2);
+            tbody.appendChild(tr);
+          }
+          for (const [key, value] of Object.entries(hardData)) {
+            const tr = document.createElement("tr");
+            const td1 = document.createElement("td");
+            td1.textContent = key;
+            const td2 = document.createElement("td");
+            td2.appendChild(renderValue(value));
+            tr.appendChild(td1);
+            tr.appendChild(td2);
+            tbody.appendChild(tr);
+          }
+          // Сортировка приоритетных строк
+          const priority = ["Онлайн", "hostname", "username", "network"];
+          const rows = Array.from(tbody.children);
+          rows.sort((a, b) => {
+            const ka = a.firstChild.textContent;
+            const kb = b.firstChild.textContent;
+            const ia = priority.indexOf(ka);
+            const ib = priority.indexOf(kb);
+            if (ia === -1 && ib === -1) return 0;
+            if (ia === -1) return 1;
+            if (ib === -1) return -1;
+            return ia - ib;
+          });
+          rows.forEach(tr => tbody.appendChild(tr));
 
-        function addIPInfo(info) {
-          info["IP-адрес"] = savedIP;
-        }
-
-        function updateMailtoLink() {
+          // Mailto и Download
           const email = "Support@k601.ru";
           const subject = encodeURIComponent("Данные пользователя с сайта");
-          const body = encodeURIComponent(getTableText());
-          const href = `mailto:${email}?subject=${subject}&body=${body}`;
-          document.getElementById("mailto-link").setAttribute("href", href);
-        }
-
-        let lastDownloadUrl = null;
-        function updateDownloadLink() {
-          const text = getTableText();
-          const blob = new Blob([text], { type: "text/plain" });
-          const url = URL.createObjectURL(blob);
-          const link = document.getElementById("download-link");
-          link.href = url;
-          if (lastDownloadUrl) {
-            URL.revokeObjectURL(lastDownloadUrl);
-          }
-          lastDownloadUrl = url;
-        }
-
-        function updateAndShow() {
-          let info = getBaseInfo();
-          updateDynamicInfo(info);
-          addIPInfo(info);
-          fillTable(info);
-          updateMailtoLink();
-          updateDownloadLink();
-        }
-
-        // Первый запуск: получить IP и гео только один раз
-        (async () => {
-          getIP();
-          setInterval(updateAndShow, 1000);
-          updateAndShow();
-        })();
-
-        // --- Mailto с таблицей ---
-        function getTableText() {
-          let info = getBaseInfo();
-          updateDynamicInfo(info);
-          addIPInfo(info);
           let lines = [];
           for (const [key, value] of Object.entries(info)) {
             if (typeof value === 'object' && value !== null) {
@@ -274,8 +263,20 @@
               lines.push(`${key}: ${value}`);
             }
           }
-          return lines.join("\n");
-        }
+          const body = encodeURIComponent(lines.join("\n"));
+          document.getElementById("mailto-link").setAttribute("href", `mailto:${email}?subject=${subject}&body=${body}`);
+          const blob = new Blob([lines.join("\n")], { type: "text/plain" });
+          const url = URL.createObjectURL(blob);
+          document.getElementById("download-link").href = url;
+
+          // Тоггл таблицы
+          const table = document.getElementById("info-table");
+          const toggleBtn = document.querySelector(".togglebtn");
+          toggleBtn.onclick = function() {
+            table.classList.toggle("hidden");
+            toggleBtn.textContent = table.classList.contains("hidden") ? "Открыть" : "Закрыть";
+          };
+        };
 
         // Удаляю обработчик click для download-btn (заменён на ссылку)
 
@@ -312,6 +313,9 @@
       table{
         width: 100%;
       }
+      .hidden tr:nth-child(n+5){
+        display: none;
+      }
       td:has(table) {
         padding: 0 !important;
       }
@@ -342,7 +346,7 @@
       }
       .p1 {
       }
-      .p2, .mailto-link {
+      .p2, .mailto-link, .togglebtn{
         padding: 15px;
         border: 1px solid black;
         background-image: repeating-linear-gradient(
@@ -352,13 +356,14 @@
           transparent 7px,
           transparent 14px
         );
+        background-size: 500%;
         background-color: #e0e0e0;
         transition: background-color 1s;
-        background-position: 0;
+        background-position: 100%;
       }
-      .p2:hover, .mailto-link:hover{
-        background-position: 100000vw;
-        transition: background-position 10000s, background-color 1s;
+      .p2:hover, .mailto-link:hover, .togglebtn:hover{
+        background-position: 10000vw;
+        transition: background-position 600s, background-color 1s linear;
         background-color: #b8f5c0;
       }
     </style>
