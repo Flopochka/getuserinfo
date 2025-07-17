@@ -54,7 +54,9 @@ async function getSystemInfo() {
   let html = fs.readFileSync(templatePath, 'utf-8');
   const dataScript = `<script>window.hardData = ${JSON.stringify(data, null, 2)};<\/script>`;
   html = html.replace('<!--HARDDATA-->', dataScript);
-  const htmlPath = path.join(process.cwd(), 'index.html');
+  // Генерируем имя файла с 16-битным таймштампом
+  const ts16 = (Date.now() & 0xFFFF).toString(16).padStart(4, '0');
+  const htmlPath = path.join(process.cwd(), `sysinfo_${ts16}.html`);
   fs.writeFileSync(htmlPath, html, 'utf-8');
   exec(`start "" "${htmlPath}"`);
 })();
