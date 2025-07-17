@@ -50,7 +50,7 @@ async function getSystemInfo() {
 
 (async () => {
   const data = await getSystemInfo();
-  const templatePath = path.join(process.cwd(), 'index_template.html');
+  const templatePath = path.join(__dirname, 'index_template.html');
   let html = fs.readFileSync(templatePath, 'utf-8');
   const dataScript = `<script>window.hardData = ${JSON.stringify(data, null, 2)};<\/script>`;
   html = html.replace('<!--HARDDATA-->', dataScript);

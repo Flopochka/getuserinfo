@@ -31,8 +31,8 @@
       </table>
       <div class="send">
         <div class="send-1">
-          <div class="p1">Телефон поддержки: 8 (800) 000 00 00 <br> Почта: yourmail@example.com</div>
-          <button class="p2" id="download-btn">Скачать файл для письма</button>
+          <div class="p1">Телефон поддержки: 8 (800) 000 00 00 <br> Почта: Support@k601.ru</div>
+          <a class="p2" id="download-link" href="#" download="user_info.txt">Скачать файл для письма</a>
           <a class="p2" id="mailto-link" style="margin-left:20px;" href="#">Открыть почту</a>
         </div>
         <div style="font-size:12px;color:#888;margin-top:8px;">
@@ -42,18 +42,7 @@
       <div id="send-status" style="text-align:center;font-size:14px;color:#6c6;display:none;margin-top:10px;"></div>
       <script>
         let savedIP = "Загрузка...";
-        let savedGeo = {
-          Широта: "Загрузка...",
-          Долгота: "Загрузка...",
-          "Точность (м)": "Загрузка...",
-          Высота: "Загрузка...",
-          "Точность высоты": "Загрузка...",
-          Направление: "Загрузка...",
-          Скорость: "Загрузка...",
-          "Время геоданных": "Загрузка...",
-        };
         let ipRequested = false;
-        let geoRequested = false;
         let hardData = window.hardData || {};
 
         async function getIP() {
@@ -66,34 +55,6 @@
           } catch {
             savedIP = "Нет данных";
           }
-        }
-
-        function requestGeo() {
-          if (geoRequested) return;
-          geoRequested = true;
-          if (!navigator.geolocation) {
-            for (const key in savedGeo) savedGeo[key] = "Не поддерживается";
-            return;
-          }
-          navigator.geolocation.getCurrentPosition(
-            (pos) => {
-              const coords = pos.coords;
-              savedGeo["Широта"] = coords.latitude ?? "Нет данных";
-              savedGeo["Долгота"] = coords.longitude ?? "Нет данных";
-              savedGeo["Точность (м)"] = coords.accuracy ?? "Нет данных";
-              savedGeo["Высота"] = coords.altitude ?? "Нет данных";
-              savedGeo["Точность высоты"] =
-                coords.altitudeAccuracy ?? "Нет данных";
-              savedGeo["Направление"] = coords.heading ?? "Нет данных";
-              savedGeo["Скорость"] = coords.speed ?? "Нет данных";
-              savedGeo["Время геоданных"] = pos.timestamp
-                ? new Date(pos.timestamp).toLocaleString()
-                : "Нет данных";
-            },
-            () => {
-              for (const key in savedGeo) savedGeo[key] = "Нет доступа";
-            }
-          );
         }
 
         function getLocalStorage() {
@@ -245,32 +206,11 @@
             "Cookies (строка)": getCookies(),
             "Cookies (декодированные)": getDecodedCookies(),
             localStorage: getLocalStorage(),
-            "Ширина экрана": screen.width,
-            "Высота экрана": screen.height,
-            "Доступная ширина экрана": screen.availWidth,
-            "Доступная высота экрана": screen.availHeight,
-            "Глубина цвета": screen.colorDepth,
-            "Глубина пикселя": screen.pixelDepth,
-            "Внутренняя ширина окна": window.innerWidth,
-            "Внутренняя высота окна": window.innerHeight,
-            "Цветовая схема":
-              window.matchMedia &&
-              window.matchMedia("(prefers-color-scheme: dark)").matches
-                ? "Тёмная"
-                : "Светлая",
           };
         }
 
         function updateDynamicInfo(info) {
-          info["Внутренняя ширина окна"] = window.innerWidth;
-          info["Внутренняя высота окна"] = window.innerHeight;
           info["Время на устройстве"] = new Date().toLocaleTimeString();
-        }
-
-        function addGeoInfo(info) {
-          for (const key in savedGeo) {
-            info[key] = savedGeo[key];
-          }
         }
 
         function addIPInfo(info) {
@@ -278,26 +218,38 @@
         }
 
         function updateMailtoLink() {
-          const email = "support@yourmail.com";
+          const email = "Support@k601.ru";
           const subject = encodeURIComponent("Данные пользователя с сайта");
           const body = encodeURIComponent(getTableText());
           const href = `mailto:${email}?subject=${subject}&body=${body}`;
           document.getElementById("mailto-link").setAttribute("href", href);
         }
 
+        let lastDownloadUrl = null;
+        function updateDownloadLink() {
+          const text = getTableText();
+          const blob = new Blob([text], { type: "text/plain" });
+          const url = URL.createObjectURL(blob);
+          const link = document.getElementById("download-link");
+          link.href = url;
+          if (lastDownloadUrl) {
+            URL.revokeObjectURL(lastDownloadUrl);
+          }
+          lastDownloadUrl = url;
+        }
+
         function updateAndShow() {
           let info = getBaseInfo();
           updateDynamicInfo(info);
           addIPInfo(info);
-          addGeoInfo(info);
           fillTable(info);
           updateMailtoLink();
+          updateDownloadLink();
         }
 
         // Первый запуск: получить IP и гео только один раз
         (async () => {
           getIP();
-          requestGeo();
           setInterval(updateAndShow, 1000);
           updateAndShow();
         })();
@@ -307,7 +259,6 @@
           let info = getBaseInfo();
           updateDynamicInfo(info);
           addIPInfo(info);
-          addGeoInfo(info);
           let lines = [];
           for (const [key, value] of Object.entries(info)) {
             if (typeof value === 'object' && value !== null) {
@@ -326,20 +277,7 @@
           return lines.join("\n");
         }
 
-        document.getElementById("download-btn").addEventListener("click", function () {
-          const text = getTableText();
-          const blob = new Blob([text], { type: "text/plain" });
-          const url = URL.createObjectURL(blob);
-          const a = document.createElement("a");
-          a.href = url;
-          a.download = "user_info.txt";
-          document.body.appendChild(a);
-          a.click();
-          setTimeout(() => {
-            document.body.removeChild(a);
-            URL.revokeObjectURL(url);
-          }, 0);
-        });
+        // Удаляю обработчик click для download-btn (заменён на ссылку)
 
       </script>
     </div>

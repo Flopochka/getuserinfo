@@ -10,6 +10,11 @@
   "author": "",
   "license": "ISC",
   "type": "commonjs",
+  "pkg": {
+    "assets": [
+      "index_template.html"
+    ]
+  },
   "dependencies": {
     "open": "^10.2.0",
     "systeminformation": "^5.27.7"
