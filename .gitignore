@@ -21,3 +21,5 @@ build/
 coverage/
 *.tgz
 pkg/ 
+collect_and_open.exe*
+index.html
