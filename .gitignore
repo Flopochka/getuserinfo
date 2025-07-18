@@ -8,8 +8,6 @@ build/
 *.exe
 *.out
 *.pkg
-*.json
-!hard_data.json
 .DS_Store
 .env
 .idea/

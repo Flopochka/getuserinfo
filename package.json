@@ -1,0 +1,16 @@
+{
+  "name": "getuserinfo",
+  "version": "1.0.0",
+  "description": "Portable system info collector",
+  "main": "main.js",
+  "scripts": {
+    "start": "node main.js",
+    "build": "pkg main.js --targets node18-win-x64 --output collect_and_open.exe"
+  },
+  "devDependencies": {
+    "pkg": "^5.8.0"
+  },
+  "dependencies": {
+    "systeminformation": "^5.27.7"
+  }
+}
